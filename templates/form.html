@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+    <title>Question {{ question.id }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+
+    <!-- Question ID and Image (outside form box) -->
+    <div class="center">
+        <h2>Question ID: {{ question.id }}</h2>
+        <img src="{{ url_for('static', filename='images/' ~ question.id ~ '.jpg') }}"
+             alt="Question Image">
+    </div>
+
+    <!-- Form box starts here -->
+    <form method="post">
+        <!-- Question Text -->
+        <p class="center question">{{ question.question }}</p>
+
+        <!-- Answer Options -->
+        <div class="form-group">
+            <label class="form-label">Select an answer:</label>
+            <div class="radio-group">
+                {% for option in question.options %}
+                <div class="radio-option">
+                    <input type="radio" id="opt{{ loop.index }}" name="answer" value="{{ option }}"
+                           {% if option == prev_selection.selected_option %}checked{% endif %} required>
+                    <label for="opt{{ loop.index }}">{{ option }}</label>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Difficulty Tag -->
+        <div class="form-group">
+            <label class="form-label">Tag the difficulty:</label>
+            <div class="radio-group">
+                {% for level in ['easy', 'medium', 'hard'] %}
+                <div class="radio-option">
+                    <input type="radio" id="diff{{ level }}" name="difficulty_tag" value="{{ level }}"
+                           {% if level == prev_selection.difficulty_tag %}checked{% endif %} required>
+                    <label for="diff{{ level }}">{{ level.capitalize() }}</label>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Comments -->
+        <div class="form-group">
+            <label class="form-label" for="comment">Optional Comments:</label>
+            <textarea class="form-control" name="comment" id="comment" rows="4"
+                      placeholder="Write your thoughts...">{{ prev_selection.comment }}</textarea>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="navigation-section">
+            {% if prev_id %}
+            <a href="{{ url_for('form', qid=prev_id) }}" class="btn btn-secondary">Previous</a>
+            {% endif %}
+            <button type="submit" class="btn">Submit & Continue</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

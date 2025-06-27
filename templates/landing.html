@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+    <title>Music Proficiency Survey</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+    <h1 class="landing-header">Welcome to the Music Survey</h1>
+
+    <div class="table-wrapper">
+        <h3>Music Proficiency Levels</h3>
+        <table>
+            <tr><th>Level</th><th>Description</th></tr>
+            <tr><td>1</td><td>I rarely listen to music.</td></tr>
+            <tr><td>2</td><td>No formal training but enjoy music.</td></tr>
+            <tr><td>3</td><td>Basic knowledge of music or instrument.</td></tr>
+            <tr><td>4</td><td>Self-taught, amateur level.</td></tr>
+            <tr><td>5</td><td>Professional training.</td></tr>
+        </table>
+    </div>
+
+    <form action="/submit_user" method="POST">
+        <div class="form-group">
+            <label class="form-label" for="first_name">First Name:</label>
+            <input type="text" name="first_name" id="first_name" required>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="last_name">Last Name:</label>
+            <input type="text" name="last_name" id="last_name" required>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="music_level">Music Level:</label>
+            <select name="music_level" id="music_level" required>
+                <option value="">--Select--</option>
+                {% for i in range(1, 6) %}
+                <option value="{{ i }}">{{ i }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="btn">Start Survey</button>
+    </form>
+</div>
+
+<p class="note">There are only 20 questions and should ideally take about 10 mins to answer</p>
+</body>
+</html>
